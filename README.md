@@ -3,6 +3,9 @@ Roam Research extension template
 
 ## Example 
 
+https://github.com/8bitgentleman/roam-depot-multi-state-checkbox/assets/4028391/658a281c-8f46-414e-8534-aeab3fd871fe
+
+
 ## Setup 
 First make sure that __User code__ is enabled in your settings. This allows custom components in your graph.
 
