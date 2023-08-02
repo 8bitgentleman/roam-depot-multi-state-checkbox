@@ -1,0 +1,12 @@
+.roam-block>span>div.dont-focus-block{
+    display:inline-block;
+}
+
+.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="TODO"],
+.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="DOING"],
+.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="BLOCKED"],
+.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="DONE"],
+.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="CANCELED"]{
+    display:none;
+}
+  
