@@ -1,6 +1,6 @@
 import { toggleRenderComponent } from "./entry-helpers";
 
-const componentName = 'mult-istate-checkbox'
+const componentName = 'mult-state-checkbox'
 const codeBlockUID = `roam-render-${componentName}-cljs`;
 const cssBlockUID = `roam-render-${componentName}-css`;
 const renderString = `{{[[roam/render]]:((${codeBlockUID}))`;
