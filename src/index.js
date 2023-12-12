@@ -1,13 +1,6 @@
 import { toggleRenderComponent } from "./entry-helpers";
 
 const componentName = 'mult-state-checkbox'
-const codeBlockUID = `roam-render-${componentName}-cljs`;
-const cssBlockUID = `roam-render-${componentName}-css`;
-const renderString = `{{[[roam/render]]:((${codeBlockUID}))`;
-const replacementString = `{{${componentName}}}`;
-const version = 'v3';
-const titleblockUID = `roam-render-${componentName}`;
-const cssBlockParentUID = `roam-render-${componentName}-css-parent`;
 
 function onload({extensionAPI}) {
   const panelConfig = {
@@ -25,20 +18,21 @@ function onload({extensionAPI}) {
 
   extensionAPI.settings.panel.create(panelConfig);
 
-  if (!roamAlphaAPI.data.pull("[*]", [":block/uid", titleblockUID])) {
-    // component hasn't been loaded so we add it to the graph
-    toggleRenderComponent(true, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
-  }
+  const checkboxObserver = createButtonObserver({
+    attribute: componentName,
+    render: (b) => renderQueryBlock(b, onloadArgs),
+  });
+ 
 
   console.log(`load ${componentName} plugin`)
 }
 
 function onunload() {
   console.log(`unload ${componentName} plugin`)
-  toggleRenderComponent(false, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
+  // toggleRenderComponent(false, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
 }
 
 export default {
-onload,
-onunload
+  onload,
+  onunload
 };
