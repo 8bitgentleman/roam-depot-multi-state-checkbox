@@ -32,7 +32,37 @@ function onload({extensionAPI}) {
     }
   });
   runners['observers'] = [checkboxObserver]
+  extensionAPI.ui.commandPalette.addCommand({
+      label: 'Cycle multi-state TODO', 
+      callback: () => {
+        const blockUid = window.roamAlphaAPI.ui.getFocusedBlock()?.['block-uid'] || null;
+        if (blockUid !== null) {
+          let blockString = window.roamAlphaAPI.data.pull("[:block/string]", `[:block/uid \"${blockUid}\"]`)[':block/string']
+          const states = ['TODO', 'DOING', 'BLOCKED', 'DONE','CANCELED']
+          // Create a regex pattern that matches any of the state labels
+          const pattern = new RegExp(states.map(state => `#\\[\\[${state}\\]\\]`).join('|'), 'g');
+          
+          // Find the matching state index
+          const match = pattern.exec(blockString);
+          if (match) {
+            // If a state tag is found, update the block return the index of that state
+            const currentStateIndex =  states.findIndex(state => `#[[${state}]]` === match[0])
+            const currentStateLabel = states[currentStateIndex]
+            const nextStateIndex = (currentStateIndex + 1) % states.length;
+            const nextStateLabel = states[nextStateIndex]
+            //create a regex patter to find the state tag in the string
+            const pattern2 = new RegExp("#\\[\\[" + currentStateLabel + "\\]\\](?=( |$))");
+            
+            //replace the state tag with the next state tag
+            const resultString = blockString.replace(pattern2, `#[[${nextStateLabel}]]`);
 
+            //update the block string
+            window.roamAlphaAPI.updateBlock({"block":{"uid": blockUid,"string": resultString}})
+
+          }
+        }
+        
+    }})
   console.log(`load ${componentName} plugin`)
 }
 
