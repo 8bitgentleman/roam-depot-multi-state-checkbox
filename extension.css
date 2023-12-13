@@ -2,11 +2,19 @@
     display:inline-block;
 }
 
-.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="TODO"],
-.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="DOING"],
-.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="BLOCKED"],
-.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="DONE"],
-.dont-focus-block:has(button.multi-state-checkbox)+[data-tag*="CANCELED"]{
+.dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="TODO"],
+.dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="DOING"],
+.dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="BLOCKED"],
+.dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="DONE"],
+.dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="CANCELED"]{
     display:none;
 }
-  
+
+.multi-state-checkbox-parent{
+    width:inherit !important;
+    min-width: inherit !important;
+    display: inline-block;
+}
+.multi-state-checkbox-parent>div{
+    display: none;
+}

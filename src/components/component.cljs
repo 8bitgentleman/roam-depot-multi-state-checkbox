@@ -26,13 +26,14 @@
       {:block {:uid uid
                :string block-string}})
 )
+
 (defn cycle-tags [uid]
   (let [block-string (get-block-string uid)]
     )
   )
 
 (defn cycle-state [uid]
-  (let [states ["TODO" "DOING" "BLOCKED" "DONE" "CANCELED"]
+  (let [states ["#[[TODO]]" "#[[DOING]]" "#[[BLOCKED]]" "#[[DONE]]" "#[[CANCELED]]"]
         block-string (get-block-string uid)
         current-state (first (filter #(re-find (re-pattern (str "#\\[\\[" % "\\]\\](?=( |$))")) block-string) states))
         current-index (if current-state (clojure.string/index-of states current-state) -1)
