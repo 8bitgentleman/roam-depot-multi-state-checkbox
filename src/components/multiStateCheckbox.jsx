@@ -11,8 +11,28 @@ const states = [
   { label: 'CANCELED', icon: 'cross', intent: 'none', customStyles: { background: 'gray' }, iconStyle: { color: 'white' }},
 ];
 
+function findStateIndex(str, states, uid) {
+  // Create a regex pattern that matches any of the state labels
+  const pattern = new RegExp(states.map(state => `#\\[\\[${state.label}\\]\\]`).join('|'), 'g');
+  
+  // Find the matching state index
+  const match = pattern.exec(str);
+  if (match) {
+    // If a state tag is found, update the block return the index of that state
+    return states.findIndex(state => `#[[${state.label}]]` === match[0]);
+  }
+  // else add the state to the string
+  console.log(`${str} #[[TODO]]`);
+  
+  window.roamAlphaAPI.updateBlock({"block":{"uid": uid,"string": `${str} #[[TODO]]`}})
+  // If no state tag is found, return the default index (0 for TODO)
+  return 0;
+}
+
 const MultiStateCheckbox = ({ blockUid, isEditBlock, showAlias }) => {
-    const [currentStateIndex, setCurrentStateIndex] = useState(0);
+    let initialBlockString = window.roamAlphaAPI.data.pull("[:block/string]", `[:block/uid \"${blockUid}\"]`)[':block/string']
+    const initialStateIndex = findStateIndex(initialBlockString, states, blockUid);
+    const [currentStateIndex, setCurrentStateIndex] = useState(initialStateIndex);
     
   const handleClick = () => {
     // Calculate the next state index using modulo to wrap around
@@ -32,7 +52,7 @@ const MultiStateCheckbox = ({ blockUid, isEditBlock, showAlias }) => {
     //update the block string
     window.roamAlphaAPI.updateBlock({"block":{"uid": blockUid,"string": resultString}})
 
-    console.log(pattern, resultString);
+    // console.log(pattern, resultString);
         
     // Loop through the states
     setCurrentStateIndex((prevStateIndex) => (prevStateIndex + 1) % states.length);
