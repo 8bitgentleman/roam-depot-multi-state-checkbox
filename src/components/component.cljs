@@ -26,6 +26,7 @@
       {:block {:uid uid
                :string block-string}})
 )
+
 (defn cycle-tags [uid]
   (let [block-string (get-block-string uid)]
     )

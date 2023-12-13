@@ -13,13 +13,31 @@ const states = [
 
 const MultiStateCheckbox = ({ blockUid, isEditBlock, showAlias }) => {
     const [currentStateIndex, setCurrentStateIndex] = useState(0);
-    console.log(blockUid, isEditBlock, showAlias);
     
   const handleClick = () => {
+    // Calculate the next state index using modulo to wrap around
+    const nextStateIndex = (currentStateIndex + 1) % states.length;
+    const currentStateLabel = states[currentStateIndex].label;
+    const nextStateLabel = states[nextStateIndex].label;
+    
+    // Get the block string for the parent Roam Research block
+    let blockString = window.roamAlphaAPI.data.pull("[:block/string]", `[:block/uid \"${blockUid}\"]`)[':block/string']
+
+    //create a regex patter to find the state tag in the string
+    const pattern = new RegExp("#\\[\\[" + currentStateLabel + "\\]\\](?=( |$))");
+    
+    //replace the state tag with the next state tag
+    const resultString = blockString.replace(pattern, `#[[${nextStateLabel}]]`);
+
+    //update the block string
+    window.roamAlphaAPI.updateBlock({"block":{"uid": blockUid,"string": resultString}})
+
+    console.log(pattern, resultString);
+        
     // Loop through the states
     setCurrentStateIndex((prevStateIndex) => (prevStateIndex + 1) % states.length);
     // Here you could potentially use blockUid to perform some logic or side effects
-    console.log(`BlockUID: ${blockUid}, New State: ${states[(currentStateIndex + 1) % states.length].label}`);
+    // console.log(`BlockUID: ${blockUid}, New State: ${states[(currentStateIndex + 1) % states.length].label}`);
   };
 
   const currentState = states[currentStateIndex];
@@ -59,6 +77,6 @@ const MultiStateCheckbox = ({ blockUid, isEditBlock, showAlias }) => {
 };
 
 export const renderMultiCheckbox = createComponentRender(
-    ({ blockUid }) => <MultiStateCheckbox blockUid={blockUid} isEditBlock showAlias  />,
+    ({ blockUid }) => <MultiStateCheckbox blockUid={blockUid} isEditBlock showAlias style={'display: inline-block;'} />,
     "multi-state-checkbox-parent"
   );

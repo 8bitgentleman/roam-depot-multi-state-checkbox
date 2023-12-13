@@ -10,3 +10,11 @@
     display:none;
 }
   
+.multi-state-checkbox-parent{
+    width:inherit !important;
+    min-width: inherit !important;
+    display: inline-block;
+}
+.multi-state-checkbox-parent>div{
+    display: none;
+}
