@@ -24,7 +24,8 @@ function onload({extensionAPI}) {
   };
   const onloadArgs = extensionAPI
   extensionAPI.settings.panel.create(panelConfig);
-
+  
+  // create the observer for a roam button {{multi-state-checkbox}}
   const checkboxObserver = createButtonObserver({
     attribute: componentName,
     render: (b) => {
@@ -32,6 +33,8 @@ function onload({extensionAPI}) {
     }
   });
   runners['observers'] = [checkboxObserver]
+
+  // FIXME this cycles endlessly sometimes...
   extensionAPI.ui.commandPalette.addCommand({
       label: 'Cycle multi-state TODO', 
       callback: () => {
@@ -63,6 +66,7 @@ function onload({extensionAPI}) {
         }
         
     }})
+
   console.log(`load ${componentName} plugin`)
 }
 
@@ -72,7 +76,6 @@ function onunload() {
     element.disconnect()
   }
   console.log(`unload ${componentName} plugin`)
-  // toggleRenderComponent(false, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
 }
 
 export default {
