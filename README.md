@@ -1,4 +1,4 @@
-JS implimentation of a multio-state checkbox
+JS implimentation of a multi-state checkbox
 
 ## Example 
 
