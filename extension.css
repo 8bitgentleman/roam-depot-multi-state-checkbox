@@ -1,7 +1,8 @@
+/*
 .roam-block>span>div.dont-focus-block{
     display:inline-block;
 }
-
+*/
 .dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="TODO"],
 .dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="DOING"],
 .dont-unfocus-block:has(button.multi-state-checkbox) [data-tag*="BLOCKED"],
